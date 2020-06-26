@@ -29,14 +29,15 @@ public class LibroControlador {
     @Autowired
     private LibroServicio libroServicio;
 
-    @RequestMapping(value = "listar", method = RequestMethod.POST)
-    public Respuesta listar(HttpServletRequest request, @RequestBody Map<String, Object> parametros) throws Exception {
+    @RequestMapping(value = "listar", method = RequestMethod.GET)
+    public Respuesta listar(HttpServletRequest request) throws Exception {
         Respuesta resp = new Respuesta();
         resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ADVERTENCIA.getValor());
         try {
             List<Libro> libro = libroServicio.listar();
             if (libro != null && !libro.isEmpty()) {
                 resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
+                resp.setOperacionMensaje("Libro insertado correctamente");
                 resp.setExtraInfo(libro);
             } else {
                 resp.setOperacionMensaje("No se encontraron libros en la base de datos.");

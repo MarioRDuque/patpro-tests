@@ -11,79 +11,116 @@ import com.paulhammant.ngwebdriver.ByAngularModel;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import pe.patpro.entidades.Libro;
 
 /**
- * 
+ *
  * @author NaveenKhunteta
  *
  */
 public class ControladorPrincipal {
 
-	WebDriver driver;
-	NgWebDriver ngWebDriver;
-	JavascriptExecutor jsDriver;
+    WebDriver driver;
+    NgWebDriver ngWebDriver;
+    JavascriptExecutor jsDriver;
 
-	ByAngularModel first = ByAngular.model("first");
-	ByAngularModel second = ByAngular.model("second");
-	ByAngularModel operator = ByAngular.model("operator");
-	ByAngularButtonText go = ByAngular.buttonText("Go!");
+    ByAngularModel first = ByAngular.model("first");
+    ByAngularModel second = ByAngular.model("second");
+    ByAngularModel operator = ByAngular.model("operator");
+    ByAngularButtonText go = ByAngular.buttonText("Go!");
 
-	By result = By.tagName("h2");
+    By result = By.tagName("h2");
 
-	public ControladorPrincipal() {
+    public ControladorPrincipal() {
 
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
-		jsDriver = (JavascriptExecutor) driver;
-		ngWebDriver = new NgWebDriver(jsDriver);
-		driver.get("http://localhost/proyectoFinal");
-		ngWebDriver.waitForAngularRequestsToFinish();
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        jsDriver = (JavascriptExecutor) driver;
+        ngWebDriver = new NgWebDriver(jsDriver);
+        driver.get("http://localhost/proyectoFinal");
+        ngWebDriver.waitForAngularRequestsToFinish();
 
-	}
+    }
 
-	public String doSum(String v1, String v2) {
-		driver.findElement(first).clear();
-		driver.findElement(first).sendKeys(v1);
+    public String validarNombre(String nombre) {
+        ByAngularModel first = ByAngular.model("first");
+        //resultado actual y resultado esperado
+        driver.findElement(first).clear();
+        driver.findElement(first).sendKeys(nombre);
 
-		driver.findElement(second).clear();
-		driver.findElement(second).sendKeys(v2);
+        driver.findElement(operator).sendKeys("+");
+        driver.findElement(go).click();
+        ngWebDriver.waitForAngularRequestsToFinish();
 
-		driver.findElement(operator).sendKeys("+");
-		driver.findElement(go).click();
-		ngWebDriver.waitForAngularRequestsToFinish();
+        System.out.println(driver.findElement(result).getText());
+        return driver.findElement(result).getText();
+    }
 
-		System.out.println(driver.findElement(result).getText());
-		return driver.findElement(result).getText();
-	}
+    public String insertarLibro(Libro libro) {
+        //resultado actual y resultado esperado
+        try {
+            String esperado = "Libro insertado correctamente";
+            driver.findElement(first).clear();
+            driver.findElement(first).sendKeys(libro.getNombre());
 
-	public String doSub(String v1, String v2) {
-		driver.findElement(first).clear();
-		driver.findElement(first).sendKeys(v1);
+            driver.findElement(operator).sendKeys("+");
+            driver.findElement(go).click();
+            ngWebDriver.waitForAngularRequestsToFinish();
+            Thread.sleep(3000);
+            System.out.println(driver.findElement(result).getText());
+            return driver.findElement(result).getText();
+        } catch (Exception e) {
+            return e != null ? e.getMessage() : "Nulo";
+        }
+    }
 
-		driver.findElement(second).clear();
-		driver.findElement(second).sendKeys(v2);
+    public String doSum(String v1, String v2) {
+        driver.findElement(first).clear();
+        driver.findElement(first).sendKeys(v1);
 
-		driver.findElement(operator).sendKeys("-");
-		driver.findElement(go).click();
-		ngWebDriver.waitForAngularRequestsToFinish();
+        driver.findElement(second).clear();
+        driver.findElement(second).sendKeys(v2);
 
-		System.out.println(driver.findElement(result).getText());
-		return driver.findElement(result).getText();
-	}
+        driver.findElement(operator).sendKeys("+");
+        driver.findElement(go).click();
+        ngWebDriver.waitForAngularRequestsToFinish();
 
-	public String doDiv(String v1, String v2) {
-		driver.findElement(first).clear();
-		driver.findElement(first).sendKeys(v1);
+        System.out.println(driver.findElement(result).getText());
+        return driver.findElement(result).getText();
+    }
 
-		driver.findElement(second).clear();
-		driver.findElement(second).sendKeys(v2);
+    public String doSub(String v1, String v2) {
+        driver.findElement(first).clear();
+        driver.findElement(first).sendKeys(v1);
 
-		driver.findElement(operator).sendKeys("/");
-		driver.findElement(go).click();
-		ngWebDriver.waitForAngularRequestsToFinish();
+        driver.findElement(second).clear();
+        driver.findElement(second).sendKeys(v2);
 
-		System.out.println(driver.findElement(result).getText());
-		return driver.findElement(result).getText();
-	}
+        driver.findElement(operator).sendKeys("-");
+        driver.findElement(go).click();
+        ngWebDriver.waitForAngularRequestsToFinish();
+
+        System.out.println(driver.findElement(result).getText());
+        return driver.findElement(result).getText();
+    }
+
+    public String doDiv(String v1, String v2) {
+        driver.findElement(first).clear();
+        driver.findElement(first).sendKeys(v1);
+
+        driver.findElement(second).clear();
+        driver.findElement(second).sendKeys(v2);
+
+        driver.findElement(operator).sendKeys("/");
+        driver.findElement(go).click();
+        ngWebDriver.waitForAngularRequestsToFinish();
+
+        System.out.println(driver.findElement(result).getText());
+        return driver.findElement(result).getText();
+    }
+
+    public void cerrarNavegador() {
+        driver.quit();
+    }
 
 }
