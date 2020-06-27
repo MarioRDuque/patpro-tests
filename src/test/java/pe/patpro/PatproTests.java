@@ -28,25 +28,31 @@ public class PatproTests {
 //            esperado: Errores en el fromulario
 //    testCombo con valores difrentes de los permitidos
 //            esperado: El estado no puede ser diferente de esos valores
-//    @Test(priority = 2)
-//    public void validarLongituDeNombre() {
-//        String res = paginaWeb.validarLongituDeNombre();
-//        Assert.assertEquals(res, "La longitud del nombre debe estar entre 0 y 50.");
-//    }
-
     @Test(priority = 2)
+    public void insertarConNombreSuperiorA50() {
+        String res = paginaWeb.insertarConNombreSuperiorA50();
+        Assert.assertEquals(res, "El nombre del libro debe tener menos de 50 caracteres.");
+    }
+
+    @Test(priority = 3)
+    public void insertarConAbreviaturaSuperiorA10() {
+        String res = paginaWeb.insertarConAbreviaturaSuperiorA10();
+        Assert.assertEquals(res, "El nombre del libro debe tener menos de 10 caracteres.");
+    }
+
+    @Test(priority = 4)
     public void insertar() {
         String res = paginaWeb.insertar();
         Assert.assertEquals(res, "Libro insertado correctamente.");
     }
 
-    @Test(priority = 3)
+    @Test(priority = 5)
     public void editar() {
         String res = paginaWeb.editar();
         Assert.assertEquals(res, "Libro modificado correctamente.");
     }
 
-    @Test(priority = 4)
+    @Test(priority = 6)
     public void eliminar() {
         String res = paginaWeb.eliminar();
         Assert.assertEquals(res, "Libro eliminado correctamente.");
