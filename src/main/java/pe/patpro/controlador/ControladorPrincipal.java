@@ -11,7 +11,7 @@ import com.paulhammant.ngwebdriver.ByAngularModel;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import pe.patpro.entidades.Libro;
+import org.openqa.selenium.WebElement;
 
 /**
  *
@@ -24,13 +24,6 @@ public class ControladorPrincipal {
     NgWebDriver ngWebDriver;
     JavascriptExecutor jsDriver;
 
-    ByAngularModel first = ByAngular.model("first");
-    ByAngularModel second = ByAngular.model("second");
-    ByAngularModel operator = ByAngular.model("operator");
-    ByAngularButtonText go = ByAngular.buttonText("Go!");
-
-    By result = By.tagName("h2");
-
     public ControladorPrincipal() {
 
         WebDriverManager.chromedriver().setup();
@@ -42,85 +35,86 @@ public class ControladorPrincipal {
 
     }
 
-    public String validarNombre(String nombre) {
-        ByAngularModel first = ByAngular.model("first");
-        //resultado actual y resultado esperado
-        driver.findElement(first).clear();
-        driver.findElement(first).sendKeys(nombre);
-
-        driver.findElement(operator).sendKeys("+");
-        driver.findElement(go).click();
-        ngWebDriver.waitForAngularRequestsToFinish();
-
-        System.out.println(driver.findElement(result).getText());
-        return driver.findElement(result).getText();
-    }
-
-    public String insertarLibro(Libro libro) {
-        //resultado actual y resultado esperado
+    public String insertar() {
         try {
-            String esperado = "Libro insertado correctamente";
-            driver.findElement(first).clear();
-            driver.findElement(first).sendKeys(libro.getNombre());
-
-            driver.findElement(operator).sendKeys("+");
-            driver.findElement(go).click();
-            ngWebDriver.waitForAngularRequestsToFinish();
+            ByAngularButtonText nuevo = ByAngular.buttonText("Nuevo");
+            driver.findElement(nuevo).click();
             Thread.sleep(3000);
-            System.out.println(driver.findElement(result).getText());
-            return driver.findElement(result).getText();
+            ByAngularModel nombre = ByAngular.model("libro.nombre");
+            driver.findElement(nombre).clear();
+            driver.findElement(nombre).sendKeys("Luis");
+            ByAngularModel autor = ByAngular.model("libro.autor");
+            driver.findElement(autor).clear();
+            driver.findElement(autor).sendKeys("Ortiz");
+            ByAngularModel abreviatura = ByAngular.model("libro.abreviatura");
+            driver.findElement(abreviatura).clear();
+            driver.findElement(abreviatura).sendKeys("LO");
+            ByAngularModel estado = ByAngular.model("libro.estado");
+            driver.findElement(estado).sendKeys("REGULAR");
+            ByAngularButtonText guardar = ByAngular.buttonText("Guardar");
+            driver.findElement(guardar).click();
+            Thread.sleep(3000);
+            WebElement we = driver.findElement(By.id("alerta"));
+            return we.getText();
         } catch (Exception e) {
-            return e != null ? e.getMessage() : "Nulo";
+            return e.getMessage();
         }
-    }
-
-    public String doSum(String v1, String v2) {
-        driver.findElement(first).clear();
-        driver.findElement(first).sendKeys(v1);
-
-        driver.findElement(second).clear();
-        driver.findElement(second).sendKeys(v2);
-
-        driver.findElement(operator).sendKeys("+");
-        driver.findElement(go).click();
-        ngWebDriver.waitForAngularRequestsToFinish();
-
-        System.out.println(driver.findElement(result).getText());
-        return driver.findElement(result).getText();
-    }
-
-    public String doSub(String v1, String v2) {
-        driver.findElement(first).clear();
-        driver.findElement(first).sendKeys(v1);
-
-        driver.findElement(second).clear();
-        driver.findElement(second).sendKeys(v2);
-
-        driver.findElement(operator).sendKeys("-");
-        driver.findElement(go).click();
-        ngWebDriver.waitForAngularRequestsToFinish();
-
-        System.out.println(driver.findElement(result).getText());
-        return driver.findElement(result).getText();
-    }
-
-    public String doDiv(String v1, String v2) {
-        driver.findElement(first).clear();
-        driver.findElement(first).sendKeys(v1);
-
-        driver.findElement(second).clear();
-        driver.findElement(second).sendKeys(v2);
-
-        driver.findElement(operator).sendKeys("/");
-        driver.findElement(go).click();
-        ngWebDriver.waitForAngularRequestsToFinish();
-
-        System.out.println(driver.findElement(result).getText());
-        return driver.findElement(result).getText();
     }
 
     public void cerrarNavegador() {
         driver.quit();
+    }
+
+    public String listar() {
+        try {
+            ngWebDriver.waitForAngularRequestsToFinish();
+            Thread.sleep(3000);
+            WebElement we = driver.findElement(By.id("alerta"));
+            return we.getText();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String editar() {
+        try {
+            WebElement we = driver.findElement(By.xpath("/html/body/div/div[2]/div[2]/table/tbody/tr[1]/td[6]/button[1]"));
+            we.click();
+            Thread.sleep(3000);
+            ByAngularModel nombre = ByAngular.model("libro.nombre");
+            driver.findElement(nombre).clear();
+            driver.findElement(nombre).sendKeys("Luis");
+            ByAngularModel autor = ByAngular.model("libro.autor");
+            driver.findElement(autor).clear();
+            driver.findElement(autor).sendKeys("Ortiz");
+            ByAngularModel abreviatura = ByAngular.model("libro.abreviatura");
+            driver.findElement(abreviatura).clear();
+            driver.findElement(abreviatura).sendKeys("LO");
+            ByAngularModel estado = ByAngular.model("libro.estado");
+            driver.findElement(estado).sendKeys("REGULAR");
+            ByAngularButtonText guardar = ByAngular.buttonText("Guardar");
+            driver.findElement(guardar).click();
+            Thread.sleep(3000);
+            WebElement we2 = driver.findElement(By.id("alerta"));
+            return we2.getText();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String eliminar() {
+        try {
+            WebElement we = driver.findElement(By.xpath("/html/body/div/div[2]/div[2]/table/tbody/tr[1]/td[6]/button[2]"));
+            we.click();
+            Thread.sleep(3000);
+            ByAngularButtonText confirmar = ByAngular.buttonText("Confirmar");
+            driver.findElement(confirmar).click();
+            Thread.sleep(3000);
+            WebElement we2 = driver.findElement(By.id("alerta"));
+            return we2.getText();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
 }

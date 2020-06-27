@@ -6,7 +6,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-
 import pe.patpro.controlador.ControladorPrincipal;
 
 @SpringBootTest
@@ -19,32 +18,40 @@ public class PatproTests {
         paginaWeb = new ControladorPrincipal();
     }
 
-//    @Test(priority = 1)
-//    public void insertar() {
-//        String res = paginaWeb.doSum("10", "20");
-//        Assert.assertEquals(res, "30");
-//    }
-    
-    @Test(priority = 4)
-    public void sumTest() {
-        String res = paginaWeb.doSum("10", "20");
-        Assert.assertEquals(res, "30");
+    @Test(priority = 1)
+    public void listar() {
+        String res = paginaWeb.listar();
+        Assert.assertEquals(res, "Se han listado todos los registros.");
     }
 
+//    testValidarLongitudDeUNCampo
+//            esperado: Campos con longitudes superiores al permitido
+    
+//    testValidarNoVcios
+//            esperado: Errores en el fromulario
+//    testCombo con valores difrentes de los permitidos
+    
+//            esperado: El estado no puede ser diferente de esos valores
     @Test(priority = 2)
-    public void subTest() {
-        String res = paginaWeb.doSub("100", "80");
-        Assert.assertEquals(res, "20");
+    public void insertar() {
+        String res = paginaWeb.insertar();
+        Assert.assertEquals(res, "Libro insertado correctamente.");
     }
 
     @Test(priority = 3)
-    public void divTest() {
-        String res = paginaWeb.doDiv("20", "2");
-        Assert.assertEquals(res, "10");
+    public void editar() {
+        String res = paginaWeb.editar();
+        Assert.assertEquals(res, "Libro modificado correctamente.");
     }
-    
+
+    @Test(priority = 4)
+    public void eliminar() {
+        String res = paginaWeb.eliminar();
+        Assert.assertEquals(res, "Libro eliminado correctamente.");
+    }
+
     @AfterTest
-    public void cerrarNavegador(){
+    public void cerrarNavegador() {
         paginaWeb.cerrarNavegador();
     }
 }

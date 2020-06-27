@@ -49,8 +49,9 @@ public class LibroServicioImp implements LibroServicio {
     }
     
     @Override
-    public boolean eliminar(Libro entidad) throws Exception {
-        libroDao.eliminar(entidad);
+    public boolean eliminar(Integer id) throws Exception {
+        Libro libro = libroDao.obtener(Libro.class, id);
+        libroDao.eliminar(libro);
         return true;
     }
     

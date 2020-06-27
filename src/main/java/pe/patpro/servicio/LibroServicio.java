@@ -22,5 +22,5 @@ public interface LibroServicio {
 
     public Libro obtener(Class<Libro> aClass, Integer id) throws Exception;
 
-    public boolean eliminar(Libro entidad) throws Exception;
+    public boolean eliminar(Integer id) throws Exception;
 }

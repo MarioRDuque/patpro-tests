@@ -6,16 +6,15 @@
 package pe.patpro.controlador;
 
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pe.patpro.entidades.Libro;
 import pe.patpro.servicio.LibroServicio;
-import pe.patpro.util.PatproTestUtils;
 import pe.patpro.util.Respuesta;
 
 /**
@@ -48,25 +47,6 @@ public class LibroControlador {
         return resp;
     }
 
-    @RequestMapping(value = "obtener", method = RequestMethod.POST)
-    public Respuesta obtener(@RequestBody Map<String, Object> parametros) throws Exception {
-        Respuesta resp = new Respuesta();
-        resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ADVERTENCIA.getValor());
-        try {
-            Integer id = PatproTestUtils.obtenerFiltroComoInteger(parametros, "id");
-            Libro libro = libroServicio.obtener(Libro.class, id);
-            if (libro != null) {
-                resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                resp.setExtraInfo(libro);
-            } else {
-                resp.setOperacionMensaje("El libro seleccionado ya no existe en la base de datos.");
-            }
-        } catch (Exception e) {
-            resp.setOperacionMensaje(e != null ? e.getMessage() : "Error Desconocido.");
-        }
-        return resp;
-    }
-
     @RequestMapping(value = "crear", method = RequestMethod.POST)
     public Respuesta crear(@RequestBody Libro entidad) throws Exception {
         Respuesta resp = new Respuesta();
@@ -76,7 +56,7 @@ public class LibroControlador {
                 Libro guardado = libroServicio.insertar(entidad);
                 if (guardado != null) {
                     resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                    resp.setOperacionMensaje("Operación correcta");
+                    resp.setOperacionMensaje("Libro insertado correctamente.");
                     resp.setExtraInfo(guardado);
                 } else {
                     resp.setOperacionMensaje("La operación no dio resultados, o no se logró guardar en la base de datos.");
@@ -99,7 +79,7 @@ public class LibroControlador {
                 Libro pedidoGuardado = libroServicio.actualizar(entidad);
                 if (pedidoGuardado != null) {
                     resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                    resp.setOperacionMensaje("Operación correcta");
+                    resp.setOperacionMensaje("Libro modificado correctamente.");
                     resp.setExtraInfo(pedidoGuardado);
                 } else {
                     resp.setOperacionMensaje("La operación no dio resultados, o no se logró guardar en la base de datos.");
@@ -113,16 +93,16 @@ public class LibroControlador {
         return resp;
     }
 
-    @RequestMapping(value = "eliminar", method = RequestMethod.DELETE)
-    public Respuesta eliminar(@RequestBody Libro entidad) throws Exception {
+    @RequestMapping(value = "eliminar/{id}", method = RequestMethod.DELETE)
+    public Respuesta eliminar(@PathVariable("id") Integer id) throws Exception {
         Respuesta resp = new Respuesta();
         resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ADVERTENCIA.getValor());
         try {
-            boolean resultado = libroServicio.eliminar(entidad);
+            boolean resultado = libroServicio.eliminar(id);
             if (resultado) {
                 resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                resp.setOperacionMensaje("Operación correcta");
-                resp.setExtraInfo(entidad);
+                resp.setExtraInfo(id);
+                resp.setOperacionMensaje("Libro eliminado correctamente.");
             } else {
                 resp.setOperacionMensaje("La operación no dio resultados, o no se logró eliminar en la base de datos.");
             }
