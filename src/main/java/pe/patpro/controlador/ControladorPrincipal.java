@@ -117,4 +117,30 @@ public class ControladorPrincipal {
         }
     }
 
+    public String validarLongituDeNombre() {
+        try {
+            WebElement we = driver.findElement(By.xpath("/html/body/div/div[2]/div[2]/table/tbody/tr[1]/td[6]/button[1]"));
+            we.click();
+            Thread.sleep(3000);
+            ByAngularModel nombre = ByAngular.model("libro.nombre");
+            driver.findElement(nombre).clear();
+            driver.findElement(nombre).sendKeys("Luis");
+            ByAngularModel autor = ByAngular.model("libro.autor");
+            driver.findElement(autor).clear();
+            driver.findElement(autor).sendKeys("Ortiz");
+            ByAngularModel abreviatura = ByAngular.model("libro.abreviatura");
+            driver.findElement(abreviatura).clear();
+            driver.findElement(abreviatura).sendKeys("LO");
+            ByAngularModel estado = ByAngular.model("libro.estado");
+            driver.findElement(estado).sendKeys("REGULAR");
+            ByAngularButtonText guardar = ByAngular.buttonText("Guardar");
+            driver.findElement(guardar).click();
+            Thread.sleep(3000);
+            WebElement we2 = driver.findElement(By.id("alerta"));
+            return we2.getText();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
 }

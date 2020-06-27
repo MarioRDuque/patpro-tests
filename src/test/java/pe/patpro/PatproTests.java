@@ -24,14 +24,16 @@ public class PatproTests {
         Assert.assertEquals(res, "Se han listado todos los registros.");
     }
 
-//    testValidarLongitudDeUNCampo
-//            esperado: Campos con longitudes superiores al permitido
-    
 //    testValidarNoVcios
 //            esperado: Errores en el fromulario
 //    testCombo con valores difrentes de los permitidos
-    
 //            esperado: El estado no puede ser diferente de esos valores
+//    @Test(priority = 2)
+//    public void validarLongituDeNombre() {
+//        String res = paginaWeb.validarLongituDeNombre();
+//        Assert.assertEquals(res, "La longitud del nombre debe estar entre 0 y 50.");
+//    }
+
     @Test(priority = 2)
     public void insertar() {
         String res = paginaWeb.insertar();
