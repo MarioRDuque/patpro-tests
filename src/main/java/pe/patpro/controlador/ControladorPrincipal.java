@@ -27,16 +27,16 @@ public class ControladorPrincipal {
     public ControladorPrincipal() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        driver.manage().window().maximize();
         jsDriver = (JavascriptExecutor) driver;
         ngWebDriver = new NgWebDriver(jsDriver);
         driver.get("http://localhost/proyectoFinal");
         ngWebDriver.waitForAngularRequestsToFinish();
-        driver.manage().window().maximize();
     }
 
     public String insertar() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             ByAngularModel nombre = ByAngular.model("libro.nombre");
             driver.findElement(nombre).clear();
             driver.findElement(nombre).sendKeys("Luis");
@@ -77,7 +77,7 @@ public class ControladorPrincipal {
         try {
             WebElement we = driver.findElement(By.xpath("/html/body/div/div[2]/div[2]/table/tbody/tr[1]/td[6]/button[1]"));
             we.click();
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             ByAngularModel nombre = ByAngular.model("libro.nombre");
             driver.findElement(nombre).clear();
             driver.findElement(nombre).sendKeys("Luis");
@@ -116,9 +116,7 @@ public class ControladorPrincipal {
 
     public String validarLongituDeNombre() {
         try {
-            WebElement we = driver.findElement(By.xpath("/html/body/div/div[2]/div[2]/table/tbody/tr[1]/td[6]/button[1]"));
-            we.click();
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             ByAngularModel nombre = ByAngular.model("libro.nombre");
             driver.findElement(nombre).clear();
             driver.findElement(nombre).sendKeys("Luis");
@@ -132,9 +130,9 @@ public class ControladorPrincipal {
             driver.findElement(estado).sendKeys("REGULAR");
             ByAngularButtonText guardar = ByAngular.buttonText("Guardar");
             driver.findElement(guardar).click();
-            Thread.sleep(3000);
-            WebElement we2 = driver.findElement(By.id("alerta"));
-            return we2.getText();
+            Thread.sleep(1000);
+            WebElement we = driver.findElement(By.id("alerta"));
+            return we.getText();
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -142,9 +140,7 @@ public class ControladorPrincipal {
 
     public String insertarConNombreSuperiorA50() {
         try {
-            ByAngularButtonText nuevo = ByAngular.buttonText("Nuevo");
-            driver.findElement(nuevo).click();
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             ByAngularModel nombre = ByAngular.model("libro.nombre");
             driver.findElement(nombre).clear();
             driver.findElement(nombre).sendKeys("La increíble y triste historia de la cándida Eréndira y su abuela desalmada, Gabriel García Márquez");
@@ -158,17 +154,17 @@ public class ControladorPrincipal {
             driver.findElement(estado).sendKeys("REGULAR");
             ByAngularButtonText guardar = ByAngular.buttonText("Guardar");
             driver.findElement(guardar).click();
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             WebElement we = driver.findElement(By.id("alerta"));
             return we.getText();
         } catch (Exception e) {
             return e.getMessage();
         }
     }
-    
+
     public String insertarConAbreviaturaSuperiorA10() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             ByAngularModel nombre = ByAngular.model("libro.nombre");
             driver.findElement(nombre).clear();
             driver.findElement(nombre).sendKeys("La increíble y triste historia");
@@ -182,7 +178,33 @@ public class ControladorPrincipal {
             driver.findElement(estado).sendKeys("REGULAR");
             ByAngularButtonText guardar = ByAngular.buttonText("Guardar");
             driver.findElement(guardar).click();
-            Thread.sleep(3000);
+            Thread.sleep(1000);
+            WebElement we = driver.findElement(By.id("alerta"));
+            return we.getText();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String insertarValorDesconocidoEnCombo() {
+        try {
+            ByAngularButtonText nuevo = ByAngular.buttonText("Nuevo");
+            driver.findElement(nuevo).click();
+            Thread.sleep(1000);
+            ByAngularModel nombre = ByAngular.model("libro.nombre");
+            driver.findElement(nombre).clear();
+            driver.findElement(nombre).sendKeys("La increíble y triste historia");
+            ByAngularModel autor = ByAngular.model("libro.autor");
+            driver.findElement(autor).clear();
+            driver.findElement(autor).sendKeys("Ortiz");
+            ByAngularModel abreviatura = ByAngular.model("libro.abreviatura");
+            driver.findElement(abreviatura).clear();
+            driver.findElement(abreviatura).sendKeys("ABC");
+            ByAngularModel estado = ByAngular.model("libro.estado");
+            driver.findElement(estado).sendKeys("PIEDRAS");
+            ByAngularButtonText guardar = ByAngular.buttonText("Guardar");
+            driver.findElement(guardar).click();
+            Thread.sleep(1000);
             WebElement we = driver.findElement(By.id("alerta"));
             return we.getText();
         } catch (Exception e) {
