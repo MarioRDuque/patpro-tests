@@ -15,7 +15,7 @@ import org.openqa.selenium.WebElement;
 
 /**
  *
- * @author NaveenKhunteta
+ * @author Mario Ramos
  *
  */
 public class ControladorPrincipal {
