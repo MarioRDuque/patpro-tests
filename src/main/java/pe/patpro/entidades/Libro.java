@@ -47,7 +47,7 @@ public class Libro implements Serializable {
     @Column(name = "abreviatura")
     private String abreviatura;
     @Column(name = "estado")
-    private Boolean estado;
+    private String estado;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fechamod")
@@ -100,11 +100,11 @@ public class Libro implements Serializable {
         this.abreviatura = abreviatura;
     }
 
-    public Boolean getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 

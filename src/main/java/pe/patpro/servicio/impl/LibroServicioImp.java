@@ -5,6 +5,7 @@
  */
 package pe.patpro.servicio.impl;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,34 +22,36 @@ import pe.patpro.servicio.LibroServicio;
 @Service
 @Transactional
 public class LibroServicioImp implements LibroServicio {
-
+    
     @Autowired
     private GenericoDao<Libro, Integer> libroDao;
-
+    
     @Override
     public Libro insertar(Libro entidad) throws GeneralException {
+        entidad.setFechamod(new Date());
         return libroDao.insertar(entidad);
     }
-
+    
     @Override
     public Libro actualizar(Libro entidad) throws GeneralException {
+        entidad.setFechamod(new Date());
         return libroDao.actualizar(entidad);
     }
-
+    
     @Override
     public List<Libro> listar() throws Exception {
         return libroDao.listar(Libro.class);
     }
-
+    
     @Override
     public Libro obtener(Class<Libro> aClass, Integer id) throws Exception {
         return libroDao.obtener(Libro.class, id);
     }
-
+    
     @Override
     public boolean eliminar(Libro entidad) throws Exception {
         libroDao.eliminar(entidad);
         return true;
     }
-
+    
 }

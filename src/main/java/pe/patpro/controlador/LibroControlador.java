@@ -37,7 +37,7 @@ public class LibroControlador {
             List<Libro> libro = libroServicio.listar();
             if (libro != null && !libro.isEmpty()) {
                 resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.EXITO.getValor());
-                resp.setOperacionMensaje("Libro insertado correctamente");
+                resp.setOperacionMensaje("Se han listado todos los registros.");
                 resp.setExtraInfo(libro);
             } else {
                 resp.setOperacionMensaje("No se encontraron libros en la base de datos.");
@@ -90,7 +90,7 @@ public class LibroControlador {
         return resp;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "editar", method = RequestMethod.PUT)
     public Respuesta actualizar(@RequestBody Libro entidad) throws Exception {
         Respuesta resp = new Respuesta();
         resp.setEstadoOperacion(Respuesta.EstadoOperacionEnum.ADVERTENCIA.getValor());
